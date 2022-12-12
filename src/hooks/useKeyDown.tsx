@@ -6,6 +6,7 @@ const useKeyDown = (
     setOrder: (newOrder: string[]) => void,
     setMovesCount,
     shuffleOrder: () => void,
+    setGameInProgress,
 ) => {
     const emptyIndex = order.indexOf('');
 
@@ -76,6 +77,7 @@ const useKeyDown = (
                     setMovesCount((prev) => prev + 1);
                     break;
                 case 'Space':
+                    setGameInProgress(true);
                     shuffleOrder();
                     setMovesCount(0);
                     start();

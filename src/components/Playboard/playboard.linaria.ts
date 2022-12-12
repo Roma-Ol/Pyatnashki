@@ -1,7 +1,6 @@
 import { css } from '@linaria/core';
 
 export const PlayboardStyles = css`
-  background: #79ab8e;
   width: 400px;
   height: 400px;
   margin: 0 auto;
@@ -20,6 +19,7 @@ export const PlayboardStyles = css`
     justify-content: center;
     align-items: center;
     font-size: 25px;
+    border-radius: 10px;
     
     &.empty {
       background: none;
