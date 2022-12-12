@@ -18,4 +18,4 @@ export function useShuffle  (
     }
 
     return { shuffleOrder }
-};
+}

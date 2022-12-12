@@ -1,22 +1,73 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
-const useKeyDown = () => {
+const useKeyDown = (
+    order: string[],
+    setOrder: (newOrder: string[]) => void,
+    shuffleOrder: () => void,
+) => {
+    const emptyIndex = order.indexOf('');
+
+    function getYAxis() {
+        const result = (emptyIndex) / 4;
+        const positionRatio = result.toString().indexOf('.') === -1
+            ? 0
+            : result.toString().slice(2);
+
+        switch (positionRatio) {
+            case '25':
+                return 2;
+            case '5':
+                return 3;
+            case '75':
+                return 4;
+
+            default:
+                return 1
+        }
+    }
+
+
     useEffect(() => {
         function handleKeyDown(e) {
+            const yAxis = getYAxis();
 
             switch (e.code) {
                 case 'ArrowUp':
-                    console.log('UP');
+                    order[emptyIndex + 4] && setOrder([
+                        ...order.slice(0, emptyIndex),
+                        order[emptyIndex + 4],
+                        ...order.slice(emptyIndex + 1, emptyIndex + 4),
+                        '',
+                        ...order.slice(emptyIndex + 5)
+                    ]);
                     break;
                 case 'ArrowDown':
-                    console.log('DN');
+                    order[emptyIndex - 4] && setOrder([
+                        ...order.slice(0, emptyIndex - 4),
+                        '',
+                        ...order.slice(emptyIndex - 3, emptyIndex),
+                        order[emptyIndex - 4],
+                        ...order.slice(emptyIndex + 1)
+                    ]);
                     break;
                 case 'ArrowLeft':
-                    console.log('LEFT');
+                    yAxis !==4 && setOrder([
+                        ...order.slice(0, emptyIndex),
+                        order[emptyIndex + 1],
+                        '',
+                        ...order.slice(emptyIndex + 2)
+                    ]);
                     break;
                 case 'ArrowRight':
-                    console.log('RIGHT');
+                    yAxis !== 1 && setOrder([
+                        ...order.slice(0, emptyIndex - 1),
+                        '',
+                        order[emptyIndex - 1],
+                        ...order.slice(emptyIndex + 1)
+                    ]);
                     break;
+                case 'Space':
+                    shuffleOrder();
 
                 default:
                     return
@@ -28,7 +79,7 @@ const useKeyDown = () => {
         return function cleanup() {
             document.removeEventListener("keydown", handleKeyDown);
         };
-    }, []);
+    }, [order]);
 }
 
 export default useKeyDown
