@@ -9,7 +9,7 @@ type PlayboardProps = {
 
 const Playboard: FC<PlayboardProps> = ({ order }) => {
     return (
-        <div className={PlayboardStyles}>
+        <div className={ PlayboardStyles }>
             { order.map((item, index) => {
                 return (
                     <div key={item}
