@@ -2,7 +2,9 @@ import React, {useEffect} from 'react';
 
 const useKeyDown = (
     order: string[],
+    start: () => void,
     setOrder: (newOrder: string[]) => void,
+    setMovesCount,
     shuffleOrder: () => void,
 ) => {
     const emptyIndex = order.indexOf('');
@@ -40,7 +42,9 @@ const useKeyDown = (
                         '',
                         ...order.slice(emptyIndex + 5)
                     ]);
+                    setMovesCount((prev) => prev + 1);
                     break;
+
                 case 'ArrowDown':
                     order[emptyIndex - 4] && setOrder([
                         ...order.slice(0, emptyIndex - 4),
@@ -49,7 +53,9 @@ const useKeyDown = (
                         order[emptyIndex - 4],
                         ...order.slice(emptyIndex + 1)
                     ]);
+                    setMovesCount((prev) => prev + 1);
                     break;
+
                 case 'ArrowLeft':
                     yAxis !==4 && setOrder([
                         ...order.slice(0, emptyIndex),
@@ -57,7 +63,9 @@ const useKeyDown = (
                         '',
                         ...order.slice(emptyIndex + 2)
                     ]);
+                    setMovesCount((prev) => prev + 1);
                     break;
+
                 case 'ArrowRight':
                     yAxis !== 1 && setOrder([
                         ...order.slice(0, emptyIndex - 1),
@@ -65,9 +73,12 @@ const useKeyDown = (
                         order[emptyIndex - 1],
                         ...order.slice(emptyIndex + 1)
                     ]);
+                    setMovesCount((prev) => prev + 1);
                     break;
                 case 'Space':
                     shuffleOrder();
+                    setMovesCount(0);
+                    start();
 
                 default:
                     return
